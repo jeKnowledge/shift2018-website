@@ -1,0 +1,23 @@
+os:
+  - linux
+
+language: php
+
+php:
+  - '7.1'
+
+sudo: false
+
+env:
+  global:
+    - APP_KEY=base64:X+o+OWdB/k5YHQoZ4jsgGbxRt/5CrAry2G0cTKDtk+c=
+
+before_script:
+  - mkdir bootstrap/cache
+  - composer self-update
+  - composer install --no-interaction
+  - phpenv rehash
+
+script:
+  - ./vendor/bin/phpcs --standard=./rules.xml --ignore=app/Http/Controllers/Auth,app/Http/Controllers/Controller.php,app/Console/Kernel app/
+  - ./vendor/bin/phpcbf --standard=./rules.xml --ignore=app/Http/Controllers/Auth,app/Http/Controllers/Controller.php,app/Console/Kernel app/

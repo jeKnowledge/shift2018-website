@@ -1,0 +1,77 @@
+@extends('layouts.platform')
+
+@section('content')
+
+<style media="screen">
+  .section-cards{
+    padding-top:48px !important;
+    padding-bottom:48px !important;
+    width: 100%;
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+    display: flex;
+    justify-content: center;
+  }
+  .card {
+    margin: 12px;
+    width:calc(100% / 6);
+    box-sizing:border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .card-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  @media only screen and (max-width: 850px) {
+    .card {
+      width:calc(100% / 4);
+      box-sizing:border-box;
+    }
+  }
+  @media only screen and (max-width: 600px) {
+    .card {
+      width:calc(100% / 2);
+      box-sizing:border-box;
+    }
+  }
+  @media only screen and (max-width: 420px) {
+    .card {
+      width:calc(100% / 1);
+      box-sizing:border-box;
+    }
+    .section-cards{
+      padding-left: 0px !important;
+      padding-right: 0px !important;
+    }
+  }
+</style>
+
+    <div class="section section-small visible section-cards" id="bio-section">
+        @foreach ($shifters as $shifter)
+            @if ($shifter->id != Auth::user()->id)
+                    <div class="card" style="">
+                        <div class="card-image" style="min-height:280px;">
+                            <figure class="image" style="width:85%;" >
+                                @if ($shifter->photoPath != "" && !$shifter->hasUrlPhoto())
+                                    <img src="{{ asset('images/photos/' . $shifter->photoPath) }}" alt="">
+                                @elseif ($shifter->photoPath != "" && $shifter->hasUrlPhoto())
+                                    <img src="{{ $shifter->photoPath }}" alt="">
+                                @else
+                                    <img src="{{ asset('images/shift18/shift-placeholder.png') }}" alt="">
+                                @endif
+                            </figure>
+                        </div>
+                        <div class="card-header-title">
+                          <div class="title has-text-centered is-5">
+                              {{ $shifter->name }}
+                          </div>
+                        </div>
+                    </div>
+            @endif
+        @endforeach
+    </div>
+@endsection
